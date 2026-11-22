@@ -1,205 +1,92 @@
-# 📊 Customer Behavioral Segmentation & RFM Value Optimization
+# 👥 Customer Behavioral Segmentation & RFM Value Optimization
 
-[![SQL Server](https://img.shields.io/badge/Database-SQL_Server_2022-CC2927?style=flat-square&logo=microsoftsqlserver&logoColor=white)](#)
-[![T-SQL](https://img.shields.io/badge/Language-T--SQL-00599C?style=flat-square)](#)
-[![Power BI](https://img.shields.io/badge/Visualization-Power_BI_Desktop-F2C811?style=flat-square&logo=powerbi&logoColor=black)](#)
-[![DAX](https://img.shields.io/badge/Analytics-DAX-205493?style=flat-square)](#)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Power BI](https://img.shields.io/badge/Power_BI-Desktop_%26_Service-F2C811?logo=powerbi&logoColor=black)](https://powerbi.microsoft.com/)
+[![SQL Server](https://img.shields.io/badge/Microsoft_SQL_Server-T--SQL-CC292B?logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/sql-server)
+[![Analytics](https://img.shields.io/badge/Methodology-RFM_Segmentation-blue)](#3-dashboard-preview--project-visuals)
+[![Interactive Dashboard](https://img.shields.io/badge/Live_Dashboard-Power_BI_Service-brightgreen?logo=powerbi&logoColor=white)](https://app.powerbi.com/view?r=eyJrIjoiOTNmNDQ0OTItM2YxMC00MTdhLWE0MGUtZmFmMGJjMDhlM2MzIiwidCI6ImVhZjYyNGM4LWEwYzQtNDE5NS04N2QyLTQ0M2U1ZDc1MTZjZCIsImMiOjh9)
 
----
-
-## 1. 📌 Project Title
-**Customer Behavioral Segmentation & RFM Value Optimization**
+An end-to-end customer intelligence solution that cleans, aggregates, and scores 12 months of transactional sales data using T-SQL quintiles (`NTILE`), classifying 287 customer accounts into behavioral cohorts to prevent churn and maximize Customer Lifetime Value (LTV).
 
 ---
 
-## 2. 📖 Project Overview
-This project delivers an end-to-end customer intelligence solution designed to segment commercial accounts based on their historical transaction dynamics. Leveraging a robust **T-SQL data pipeline** and an interactive **Power BI dashboard**, the project ingests and standardizes 12 months of transactional sales data, scores customers using the statistical **RFM (Recency, Frequency, Monetary)** model, and classifies them into strategic behavioral cohorts. The final deliverables empower commercial directors and marketing leads to prioritize high-value accounts, prevent silent customer churn, and reallocate promotional budgets with precision.
+## 1. Project Title & Overview
+
+### Business Problem
+Treating all customer accounts identically in marketing and sales outreach resulted in diminishing promotional conversion rates, unbudgeted discounting, and undetected customer churn. Specifically:
+1. **Generic Marketing Campaigns:** High-value customers received mass-market promotional emails, diluting brand prestige without driving incremental orders.
+2. **Hidden Churn Among Lucrative Accounts:** Accounts with high historical spend drifted into inactivity without warning, leaving account managers unaware until accounts fully defected to competitors.
+3. **Inefficient Budget Allocation:** Marketing resources were disproportionately spent chasing long-dormant leads rather than nurturing active accounts with high upside potential.
+
+### Solution & Scope
+To solve this, a complete data pipeline and business intelligence reporting suite was developed:
+- **Data Engineering & Consolidation:** Engineered a 5-stage **T-SQL pipeline** that consolidates 12 monthly transactional partitions (2025-01 through 2025-12), computes customer-level Recency, Frequency, and Monetary metrics, and assigns statistical quintile scores (1–5) via window functions (`NTILE(5)`).
+- **Behavioral Segmentation Framework:** Categorized **287 customer accounts** into 7 distinct business cohorts (*Champions, Potential Loyalists, At Risk, Loyal Customers, New Customers, Hibernating, and Others*).
+- **Interactive Executive Reporting:** Built an intuitive **Microsoft Power BI** dashboard featuring dynamic cross-filtering by segment, RFM cell distribution analysis, and account-level drill-through capabilities.
 
 ---
 
-## 3. 🎯 Business Problem
-A mid-sized retail enterprise operated with a uniform commercial strategy, distributing generic discounts and promotional materials equally across all accounts. This untargeted approach led to several critical inefficiencies:
-* **Promotional Margin Erosion:** Offering unnecessary 10%–20% discounts to habitual, price-insensitive buyers who would have purchased at standard pricing.
-* **Undetected Customer Churn:** High-value accounts quietly lapsed into inactivity without triggering alerts or intervention from sales managers.
-* **Wasted Marketing Capital:** Continued direct mail and advertising spend directed toward dormant accounts with near-zero conversion probability.
+## 2. Tech Stack
+
+| Technology | Role in Project |
+| :--- | :--- |
+| **Microsoft Power BI Desktop & Service** | Executive dashboard design, interactive segment slicing, RFM cell distribution charts, and cloud report publishing. |
+| **Microsoft SQL Server / T-SQL** | Multi-table consolidation (`UNION ALL`), aggregation indexing, statistical quintile scoring (`NTILE(5)`), and segmentation classification logic. |
+| **DAX (Data Analysis Expressions)** | Dynamic segment customer counts, percentage distributions, and transaction metric aggregations. |
+| **Excel & CSV Datasets** | Monthly transaction partition feeds covering 12 consecutive months of order data. |
 
 ---
 
-## 4. 🚀 Project Objectives
-1. **Centralize Disparate Logs:** Consolidate 12 monthly transactional partitions into an indexed analytical fact table.
-2. **Quantify Behavioral Metrics:** Calculate precise Recency (days since last purchase), Frequency (order count), and Monetary (total spend) values per customer.
-3. **Statistical Scoring:** Assign standardized 1–5 quintile scores using statistical distribution functions.
-4. **Behavioral Cohort Classification:** Group 287 active commercial accounts into 6 distinct tiers (*Champions, Loyal Customers, Potential Loyalists, New Customers, At-Risk, Hibernating*).
-5. **Actionable Commercial Strategy:** Deliver an executive dashboard and playbook outlining targeted retention and revenue-growth tactics for each segment.
+## 3. Dashboard Preview / Project Visuals
+
+### Overview: Full Customer Base Segmentation
+Presents the distribution of all 287 customer accounts across behavioral segments, RFM cell combinations (e.g. 555, 111, 455), and the customer-level transactional detail table.
+
+![RFM Analysis Overview](images/01_rfm_analysis_overview.png)
 
 ---
 
-## 5. 📂 Dataset Description and Source
-* **Data Source:** Enterprise transactional sales logs partitioned across 12 monthly database tables (`dbo.[202501]` through `dbo.[202512]`).
-* **Timeframe:** Full fiscal year 2025 (January 1, 2025 – December 31, 2025).
-* **Scope:** 287 unique customer accounts with multi-thousand transactional line items.
-* **Key Attributes:**
-  * `CustomerID`: Unique customer identifier.
-  * `OrderDate`: Timestamp of order fulfillment.
-  * `OrderValue`: Gross monetary revenue per order.
-* **Cleaning & Assumptions:**
-  * Fixed analysis cutoff anchor set to **`2025-12-31`** via Common Table Expressions (CTEs) to ensure standardized recency calculation across all customer records.
-  * Handled multi-month reconciliation via `UNION ALL` with non-clustered indexing on `(CustomerID, OrderDate)` for performance optimization.
+### Segment Deep Dive: "At-Risk" Churn Prevention View
+Isolates the 42 high-value accounts at immediate risk of defection, detailing their historical monetary contribution, order frequency, and surging dormancy (100–250+ days without ordering).
+
+![At Risk Customer Deep Dive](images/02_rfm_at_risk_deepdive.png)
 
 ---
 
-## 6. 🛠️ Tools and Technologies
-* **Database & Transformation:** Microsoft SQL Server 2022, T-SQL (Common Table Expressions, `UNION ALL`, `NTILE(5)` Window Functions, Analytical Views).
-* **Business Intelligence & Reporting:** Microsoft Power BI Desktop, DAX (Data Analysis Expressions).
-* **Data Modeling:** Relational Star Schema semantic layer.
-* **Version Control:** Git & GitHub.
+## 4. Key Insights
+
+* **40.8% of Accounts Form the High-Profitability Core (Champions & Potential Loyalists):**
+  **64 Champions (22.3%)** and **53 Potential Loyalists (18.5%)** drive the majority of commercial margins. Champions exhibit near-zero purchase recency (often buying within days) and frequent multi-order transactions. Prior to this analysis, these accounts received the same promotional discounts as one-time buyers, representing significant unnecessary margin erosion.
+
+* **42 High-Value Accounts (14.6%) Face Imminent Churn Danger:**
+  A critical cluster of **42 accounts** was classified as **"At Risk"**. These customers historically exhibited strong monetary spend (scoring 4 or 5 in Monetary value) and regular order cadence, but their recency has surged to **100 to 254 days without a single order**. Without rapid, personalized intervention, these high-value accounts represent imminent, permanent revenue loss.
+
+* **25.8% of Accounts (74 Customers) Are Deeply Dormant ("Hibernating"):**
+  The largest single cohort comprises **74 Hibernating customers (25.8%)**, heavily concentrated in the lowest RFM score cells (`111`, `122`, `121`). These accounts have disengaged completely, demonstrating that high-touch sales rep outreach on this group yields negative ROI and should be replaced by low-cost automated workflows.
 
 ---
 
-## 7. 🔄 Project Workflow
+## 5. Business Recommendations
 
-```text
-┌────────────────────────┐      ┌────────────────────────┐      ┌────────────────────────┐
-│  12 Monthly Tables     │      │   Base RFM Metrics     │      │  Quintile Scoring      │
-│  (dbo.[202501..202512])│ ──►  │   (DATEDIFF, COUNT,    │ ──►  │  (NTILE(5) Scoring     │
-│  UNION ALL Pipeline    │      │    SUM OrderValue)     │      │   R, F, M: 1 to 5)     │
-└────────────────────────┘      └────────────────────────┘      └────────────────────────┘
-                                                                             │
-┌────────────────────────┐      ┌────────────────────────┐                   ▼
-│   Power BI Dashboard   │      │  At-Risk Watchlist     │      ┌────────────────────────┐
-│   Interactive Slicers  │ ◄──  │  (Recency 1-2 &        │ ◄──  │  Behavioral Cohorts    │
-│   & Executive Visuals  │      │   Monetary 4-5)        │      │  (CASE WHEN Logic)     │
-└────────────────────────┘      └────────────────────────┘      └────────────────────────┘
-```
+1. **Deploy an Immediate 14-Day Reactivation Campaign for "At-Risk" Accounts:**
+   - Assign dedicated commercial account managers to conduct direct check-ins with the 42 At-Risk accounts.
+   - Deliver high-incentive, personalized win-back offers (e.g. exclusive reorder bundles or free priority shipping) to re-engage accounts before the 180-day defection threshold.
 
----
+2. **Establish a VIP Loyalty & Recognition Program for "Champions":**
+   - Shift from price discounting to value-added privileges (dedicated customer service, early access to new inventory, and annual volume rebates).
+   - Protect commercial profit margins by discontinuing blanket discounting on top-tier spenders.
 
-## 8. 📁 Repository Structure
+3. **Accelerate "Potential Loyalists" via Cross-Selling & Basket Thresholds:**
+   - Target the 53 Potential Loyalists with automated post-purchase recommendations and minimum-spend tier upgrades (e.g. "Spend \$25 more to achieve VIP status") to increase purchase frequency.
 
-```text
-rfm-customer-segmentation/
-├── README.md                           # Executive business documentation
-├── .gitignore                          # Standard git exclusions (temporary and cache files)
-├── sql/
-│   └── rfm_customer_segmentation.sql   # Production-ready T-SQL pipeline script
-├── dashboards/
-│   └── RFM Dashboard.pbix              # Interactive Power BI report file
-└── images/
-    ├── rfm_dashboard_hero.png          # High-resolution executive dashboard preview
-    └── rfm_dashboard_overview.png      # Segmentation matrix and distribution view
-```
+4. **Automate Low-Cost Win-Back Workflows for "Hibernating" Accounts:**
+   - Transition the 74 Hibernating accounts entirely to automated low-cost email drips, freeing up commercial team bandwidth for high-margin accounts.
 
 ---
 
-## 9. 🔬 Analysis and Methodology
+## 6. Interactive Dashboard
 
-The segmentation methodology relies on statistical quintile scoring:
-1. **Recency Metric:** Days elapsed between the customer's most recent transaction and `2025-12-31`.
-2. **Frequency Metric:** Total number of distinct completed orders within the 12-month window.
-3. **Monetary Metric:** Total net revenue generated by the customer.
-4. **Scoring via `NTILE(5)`:**
-   * Recency scored in reverse (`ORDER BY recency DESC`) so recent shoppers receive Score 5.
-   * Frequency and Monetary scored ascending (`ORDER BY frequency ASC`, `ORDER BY monetary ASC`) where high activity receives Score 5.
-5. **Cohort Assignment Logic:**
-   * **Champions:** `R >= 4 AND F >= 4` (Recent, frequent, high-spend accounts).
-   * **Loyal Customers:** `R >= 3 AND F >= 4` (Steady recurring purchasers).
-   * **Potential Loyalists:** `R >= 3 AND F BETWEEN 2 AND 3` (Growing engagement).
-   * **New Customers:** `R >= 4 AND F <= 2` (Recent first-time or second-time buyers).
-   * **At Risk:** `R <= 2 AND F >= 3` (Former regulars who have stopped ordering).
-   * **Hibernating:** `R <= 2 AND F <= 2` (Lapsed, low-frequency, low-spend accounts).
+Experience the live, interactive Power BI report with full cross-filtering, segment selection, and account drill-throughs directly in your browser:
 
----
+[![Launch Power BI Dashboard](https://img.shields.io/badge/Power_BI_Service-Launch_Interactive_Dashboard-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](https://app.powerbi.com/view?r=eyJrIjoiOTNmNDQ0OTItM2YxMC00MTdhLWE0MGUtZmFmMGJjMDhlM2MzIiwidCI6ImVhZjYyNGM4LWEwYzQtNDE5NS04N2QyLTQ0M2U1ZDc1MTZjZCIsImMiOjh9)
 
-## 10. 📊 Key KPIs & Metrics
-* **Total Customers Analyzed:** **287 Accounts**
-* **Time Horizon:** **12 Months (Fiscal Year 2025)**
-* **Champions & Loyal Volume Share:** **~35% of total customer base**
-* **Champions & Loyal Revenue Contribution:** **~62% of gross company revenue**
-* **At-Risk High-Value Accounts Identified:** Accounts with Monetary Scores 4–5 and Recency Scores 1–2 (targeted for emergency intervention).
-
----
-
-## 11. 💡 Key Findings and Business Insights
-
-### 🔍 Finding 1: Top 35% of Accounts Account for 62% of Enterprise Gross Revenue
-![RFM Overview](images/rfm_dashboard_overview.png)
-* **Observation:** The top tiers (*Champions* and *Loyal Customers*) represent slightly more than a third of accounts but generate nearly two-thirds of all revenue.
-* **Root Cause:** Operational reliability and high satisfaction create strong habitual reordering patterns.
-* **Business Impact:** Offering indiscriminate price discounts to this group unnecessarily erodes company gross margin without stimulating new demand.
-
----
-
-### ⚠️ Finding 2: High-Value "At Risk" Defection Represents a Significant Revenue Hazard
-![RFM Dashboard Hero](images/rfm_dashboard_hero.png)
-* **Observation:** Multiple accounts with historical order values exceeding $150–$200+ have surpassed 90–120 days without placing an order.
-* **Root Cause:** Post-purchase disengagement, unaddressed service friction, or aggressive competitor outreach.
-* **Business Impact:** Losing even 5–10 of these top-tier accounts causes far greater revenue decline than losing dozens of one-time shoppers.
-
----
-
-### 💤 Finding 3: Dormant "Hibernating" Accounts Siphon Performance Marketing Spend
-* **Observation:** Accounts with Recency ≤ 2 and Frequency ≤ 2 have been inactive for over 6 months with only a single historical order.
-* **Root Cause:** Opportunistic buyers attracted by historical clearance sales with zero brand commitment.
-* **Business Impact:** Continued paid retargeting produces a negative marketing ROI.
-
----
-
-## 12. 🎯 Business Recommendations & Playbook
-
-| Customer Cohort | Strategic Goal | Tactical Playbook | Lead Owner | Expected Business ROI |
-| :--- | :--- | :--- | :--- | :--- |
-| **🏆 Champions** | Retain & Maximize LTV | Enroll in VIP advisory circle; exclusive previews; zero discount dilution. | Commercial Sales / VIP Lead | +10% increase in annual order frequency. |
-| **🤝 Loyal Customers** | Cross-Category Expansion | Targeted cross-sell promotions based on historical category affinity. | Merchandising & Marketing | +15% expansion in product category penetration. |
-| **⚠️ At Risk (High Value)** | Emergency Churn Intervention | Personal outreach by dedicated Account Executive; customer satisfaction audit; tailored re-engagement bundle. | Sales Director & Customer Success | Prevent 25% of imminent customer defections. |
-| **🌱 New Customers** | Accelerate 2nd Order Velocity | Automated 3-part email welcome workflow triggered within 14 days of first delivery. | Lifecycle Marketing Team | +22% conversion from 1st-time to 2nd-time buyer. |
-| **💤 Hibernating** | Low-Cost Automation or Pruning | Transition to low-cost quarterly email newsletter; suppress from paid ad lists. | Performance Marketing | -30% reduction in wasted ad spend. |
-
----
-
-## 13. 🖼️ Dashboard Preview
-
-### Executive Overview & Cohort Matrix
-![RFM Dashboard Overview](images/rfm_dashboard_overview.png)
-
-### Cohort Distribution & Metric Cards
-![RFM Dashboard Hero](images/rfm_dashboard_hero.png)
-
----
-
-## 14. 🚀 How to Run the Project
-
-### Prerequisites
-* Microsoft SQL Server 2017+ (or Azure SQL Database)
-* SQL Server Management Studio (SSMS) or Azure Data Studio
-* Microsoft Power BI Desktop
-
-### Execution Steps
-1. **Database Setup:**
-   * Open SSMS and connect to your SQL Server instance.
-   * Verify that monthly transaction tables (`202501` through `202512`) are loaded in your database.
-2. **Run Pipeline Script:**
-   * Open and execute [`sql/rfm_customer_segmentation.sql`](sql/rfm_customer_segmentation.sql).
-   * The script builds the unified `dbo.sales` table, calculation views, and final `dbo.rfm_segments_final` table.
-3. **Launch Power BI Dashboard:**
-   * Open [`dashboards/RFM Dashboard.pbix`](dashboards/RFM%20Dashboard.pbix) in Power BI Desktop.
-   * Under `Home -> Transform Data -> Data Source Settings`, update the server name to point to your local SQL Server instance.
-   * Click **Close & Apply** to refresh the visual dashboard with your live data.
-
----
-
-## 15. ⚠️ Limitations
-* **Historical Time Horizon:** Analysis is bounded to a 12-month period (2025); multi-year macroeconomic seasonality is not captured.
-* **Lack of Qualitative Feedback:** Transactional data does not include customer sentiment, Net Promoter Score (NPS), or service ticket logs.
-* **Simulated Environment:** Dataset is structured for demonstration purposes based on simulated retail transaction patterns.
-
----
-
-## 👤 Author & Contact
-
-**Ahmed Rasmy**  
-*Data & Business Intelligence Analyst*  
-- 🌐 **Interactive Portfolio:** [ahmedrasmyabdelrheem.github.io](https://ahmedrasmyabdelrheem.github.io/)  
-- 💼 **LinkedIn:** [linkedin.com/in/ahmedrasmyabdelrheem](https://www.linkedin.com/in/ahmedrasmyabdelrheem)  
-- ✉️ **Email:** [ahmed.rasmy.abdelrheem@gmail.com](mailto:ahmed.rasmy.abdelrheem@gmail.com)  
-- 📄 **Resume / CV:** [Download CV](https://ahmedrasmyabdelrheem.github.io/assets/Ahmed_Rasmy_CV.pdf)
+👉 **[Click Here to Open the Live RFM Dashboard](https://app.powerbi.com/view?r=eyJrIjoiOTNmNDQ0OTItM2YxMC00MTdhLWE0MGUtZmFmMGJjMDhlM2MzIiwidCI6ImVhZjYyNGM4LWEwYzQtNDE5NS04N2QyLTQ0M2U1ZDc1MTZjZCIsImMiOjh9)**
