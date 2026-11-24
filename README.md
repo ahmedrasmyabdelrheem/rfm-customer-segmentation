@@ -2,88 +2,80 @@
 
 [![Power BI](https://img.shields.io/badge/Power_BI-Desktop_%26_Service-F2C811?logo=powerbi&logoColor=black)](https://powerbi.microsoft.com/)
 [![SQL Server](https://img.shields.io/badge/Microsoft_SQL_Server-T--SQL-CC292B?logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/sql-server)
-[![Analytics](https://img.shields.io/badge/Methodology-RFM_Segmentation-blue)](#3-dashboard-preview--project-visuals)
-[![Interactive Dashboard](https://img.shields.io/badge/Live_Dashboard-Power_BI_Service-brightgreen?logo=powerbi&logoColor=white)](https://app.powerbi.com/view?r=eyJrIjoiOTNmNDQ0OTItM2YxMC00MTdhLWE0MGUtZmFmMGJjMDhlM2MzIiwidCI6ImVhZjYyNGM4LWEwYzQtNDE5NS04N2QyLTQ0M2U1ZDc1MTZjZCIsImMiOjh9)
+[![Live Dashboard](https://img.shields.io/badge/Live_Dashboard-Power_BI_Service-brightgreen?logo=powerbi&logoColor=white)](https://app.powerbi.com/view?r=eyJrIjoiOTNmNDQ0OTItM2YxMC00MTdhLWE0MGUtZmFmMGJjMDhlM2MzIiwidCI6ImVhZjYyNGM4LWEwYzQtNDE5NS04N2QyLTQ0M2U1ZDc1MTZjZCIsImMiOjh9)
 
+---
+
+## Project Overview
 An end-to-end customer intelligence solution that cleans, aggregates, and scores 12 months of transactional sales data using T-SQL quintiles (`NTILE`), classifying 287 customer accounts into behavioral cohorts to prevent churn and maximize Customer Lifetime Value (LTV).
 
 ---
 
-## 1. Project Title & Overview
-
-### Business Problem
-Treating all customer accounts identically in marketing and sales outreach resulted in diminishing promotional conversion rates, unbudgeted discounting, and undetected customer churn. Specifically:
-1. **Generic Marketing Campaigns:** High-value customers received mass-market promotional emails, diluting brand prestige without driving incremental orders.
-2. **Hidden Churn Among Lucrative Accounts:** Accounts with high historical spend drifted into inactivity without warning, leaving account managers unaware until accounts fully defected to competitors.
-3. **Inefficient Budget Allocation:** Marketing resources were disproportionately spent chasing long-dormant leads rather than nurturing active accounts with high upside potential.
-
-### Solution & Scope
-To solve this, a complete data pipeline and business intelligence reporting suite was developed:
-- **Data Engineering & Consolidation:** Engineered a 5-stage **T-SQL pipeline** that consolidates 12 monthly transactional partitions (2025-01 through 2025-12), computes customer-level Recency, Frequency, and Monetary metrics, and assigns statistical quintile scores (1–5) via window functions (`NTILE(5)`).
-- **Behavioral Segmentation Framework:** Categorized **287 customer accounts** into 7 distinct business cohorts (*Champions, Potential Loyalists, At Risk, Loyal Customers, New Customers, Hibernating, and Others*).
-- **Interactive Executive Reporting:** Built an intuitive **Microsoft Power BI** dashboard featuring dynamic cross-filtering by segment, RFM cell distribution analysis, and account-level drill-through capabilities.
+## Business Problem
+A growing commercial enterprise treated all customer accounts identically in marketing and sales outreach, causing diminishing campaign ROI and margin erosion from blanket discounting. Management lacked visibility into early churn signals among high-spending clients, leaving lucrative accounts undetected until they permanently defected to competitors. This created an urgent need for data-driven customer behavioral segmentation.
 
 ---
 
-## 2. Tech Stack
-
-| Technology | Role in Project |
-| :--- | :--- |
-| **Microsoft Power BI Desktop & Service** | Executive dashboard design, interactive segment slicing, RFM cell distribution charts, and cloud report publishing. |
-| **Microsoft SQL Server / T-SQL** | Multi-table consolidation (`UNION ALL`), aggregation indexing, statistical quintile scoring (`NTILE(5)`), and segmentation classification logic. |
-| **DAX (Data Analysis Expressions)** | Dynamic segment customer counts, percentage distributions, and transaction metric aggregations. |
-| **Excel & CSV Datasets** | Monthly transaction partition feeds covering 12 consecutive months of order data. |
+## Solution
+Engineered a 5-stage **T-SQL pipeline** consolidating 12 monthly transactional partitions, computing Recency, Frequency, and Monetary metrics, and assigning quintile scores (1–5) via window functions (`NTILE(5)`). Classified **287 customer accounts** into 7 actionable behavioral tiers, and deployed an interactive **Power BI** dashboard with dynamic segment cross-filtering and customer-level drill-throughs.
 
 ---
 
-## 3. Dashboard Preview / Project Visuals
+## Dashboard Preview
 
-### Overview: Full Customer Base Segmentation
-Presents the distribution of all 287 customer accounts across behavioral segments, RFM cell combinations (e.g. 555, 111, 455), and the customer-level transactional detail table.
-
+### 1. RFM Analysis & Customer Base Distribution
 ![RFM Analysis Overview](images/01_rfm_analysis_overview.png)
+* **What it shows:** Macro-level distribution of all customer accounts across 7 behavioral tiers, granular RFM cell frequency patterns, and an account-level transactional ledger.
+* **Business Value:** Provides sales and marketing directors with an instant diagnostic of customer portfolio health, revealing the proportion of active loyalists versus dormant buyers.
 
 ---
 
-### Segment Deep Dive: "At-Risk" Churn Prevention View
-Isolates the 42 high-value accounts at immediate risk of defection, detailing their historical monetary contribution, order frequency, and surging dormancy (100–250+ days without ordering).
-
-![At Risk Customer Deep Dive](images/02_rfm_at_risk_deepdive.png)
-
----
-
-## 4. Key Insights
-
-* **40.8% of Accounts Form the High-Profitability Core (Champions & Potential Loyalists):**
-  **64 Champions (22.3%)** and **53 Potential Loyalists (18.5%)** drive the majority of commercial margins. Champions exhibit near-zero purchase recency (often buying within days) and frequent multi-order transactions. Prior to this analysis, these accounts received the same promotional discounts as one-time buyers, representing significant unnecessary margin erosion.
-
-* **42 High-Value Accounts (14.6%) Face Imminent Churn Danger:**
-  A critical cluster of **42 accounts** was classified as **"At Risk"**. These customers historically exhibited strong monetary spend (scoring 4 or 5 in Monetary value) and regular order cadence, but their recency has surged to **100 to 254 days without a single order**. Without rapid, personalized intervention, these high-value accounts represent imminent, permanent revenue loss.
-
-* **25.8% of Accounts (74 Customers) Are Deeply Dormant ("Hibernating"):**
-  The largest single cohort comprises **74 Hibernating customers (25.8%)**, heavily concentrated in the lowest RFM score cells (`111`, `122`, `121`). These accounts have disengaged completely, demonstrating that high-touch sales rep outreach on this group yields negative ROI and should be replaced by low-cost automated workflows.
+### 2. "At-Risk" Churn Prevention Deep Dive
+![At-Risk Customer Deep Dive](images/02_rfm_at_risk_deepdive.png)
+* **What it shows:** An isolated view of high-value accounts experiencing prolonged purchasing dormancy, detailing individual customer recency days, past order cadence, and total spend.
+* **Business Value:** Empowers account managers with an actionable, prioritized target list for immediate commercial win-back campaigns before customer defection becomes irreversible.
 
 ---
 
-## 5. Business Recommendations
+## Key Insights
 
-1. **Deploy an Immediate 14-Day Reactivation Campaign for "At-Risk" Accounts:**
-   - Assign dedicated commercial account managers to conduct direct check-ins with the 42 At-Risk accounts.
-   - Deliver high-incentive, personalized win-back offers (e.g. exclusive reorder bundles or free priority shipping) to re-engage accounts before the 180-day defection threshold.
+* **High-Profitability Customer Concentration:**
+  * **Finding:** A focused core of Champions and Potential Loyalists drives the business's repeat revenue.
+  * **Evidence:** **64 Champions (22.3%)** and **53 Potential Loyalists (18.5%)** comprise 40.8% of the customer base with peak recency and order frequency.
+  * **Business Meaning:** High-value customers generate outsized margins and should receive VIP relationship perks rather than margin-eroding discount promotions.
 
-2. **Establish a VIP Loyalty & Recognition Program for "Champions":**
-   - Shift from price discounting to value-added privileges (dedicated customer service, early access to new inventory, and annual volume rebates).
-   - Protect commercial profit margins by discontinuing blanket discounting on top-tier spenders.
+* **Critical Churn Exposure in High-Value Accounts:**
+  * **Finding:** A substantial cluster of historically lucrative accounts has stopped ordering and faces imminent churn.
+  * **Evidence:** **42 accounts (14.6%)** classified as **"At Risk"** boast high monetary scores (4–5) but have gone dormant for **100 to 254 days**.
+  * **Business Meaning:** Unmonitored account dormancy threatens customer lifetime value, requiring proactive intervention to protect top-line revenue.
 
-3. **Accelerate "Potential Loyalists" via Cross-Selling & Basket Thresholds:**
-   - Target the 53 Potential Loyalists with automated post-purchase recommendations and minimum-spend tier upgrades (e.g. "Spend \$25 more to achieve VIP status") to increase purchase frequency.
-
-4. **Automate Low-Cost Win-Back Workflows for "Hibernating" Accounts:**
-   - Transition the 74 Hibernating accounts entirely to automated low-cost email drips, freeing up commercial team bandwidth for high-margin accounts.
+* **Heavy Customer Base Dormancy (Hibernating):**
+  * **Finding:** One-quarter of the customer portfolio is completely disengaged with minimal repeat purchasing intent.
+  * **Evidence:** **74 accounts (25.8%)** fall into the **"Hibernating"** tier, clustered in bottom RFM score cells (`111` and `122`).
+  * **Business Meaning:** High-touch manual sales outreach on dormant leads wastes rep capacity and should be replaced by low-cost automated workflows.
 
 ---
 
-## 6. Interactive Dashboard
+## Business Recommendations
+
+* **Rapid 14-Day Reactivation Blitz for At-Risk Accounts:**
+  * **Finding:** 42 high-value accounts have been dormant between 100–254 days, representing imminent revenue churn.
+  * **Suggested Action:** Assign dedicated sales reps to execute personalized outreach and offer tailored reorder incentives within 14 days.
+  * **Expected Benefit:** Recovers 20–25% of at-risk accounts, protecting high-margin recurring revenue before permanent brand defection.
+
+* **VIP Loyalty Program for Champions (64 Accounts):**
+  * **Finding:** Top-tier Champions were receiving standard promotional discounts despite high organic purchase intent.
+  * **Suggested Action:** Transition Champions to non-discount privileges such as dedicated support, early catalog access, and annual volume rebates.
+  * **Expected Benefit:** Safeguards product margins, eliminates discount dependency, and boosts long-term customer lifetime value.
+
+* **Automated Low-Cost Drips for Hibernating Segment (74 Accounts):**
+  * **Finding:** Manual follow-ups on 74 deeply dormant accounts yield negative ROI and distract commercial teams.
+  * **Suggested Action:** Enroll hibernating contacts into automated low-cost email re-engagement drips and suppress expensive ad retargeting.
+  * **Expected Benefit:** Maximizes sales rep productivity on high-potential buyers while maintaining a zero-marginal-cost win-back funnel.
+
+---
+
+## Interactive Dashboard
 
 Experience the live, interactive Power BI report with full cross-filtering, segment selection, and account drill-throughs directly in your browser:
 
